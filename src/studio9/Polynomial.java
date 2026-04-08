@@ -1,5 +1,6 @@
 package studio9;
 
+import java.util.List;
 import java.util.LinkedList;
 
 public class Polynomial {
@@ -9,8 +10,11 @@ public class Polynomial {
 	/**
 	 * Constructs a Polynomial with no terms yet.
 	 */
+	
+	
 	public Polynomial() {
 		//FIXME
+		list = new LinkedList<Double>();
 	}
 
 	
@@ -21,6 +25,7 @@ public class Polynomial {
 	 */
 	public void addTerm(double coeff) {
 		//FIXME
+		list.add(coeff);
 	}
 	
 	/*
@@ -29,7 +34,30 @@ public class Polynomial {
 	 * Cx^N + Cx^N-1 + ... + Cx + C
 	 */
 	public String toString() {
-		return ""; //FIXME
+		if(list.size() == 0) {
+			return "";
+		}
+
+		String result = "";
+		int highestPower = list.size() - 1;
+
+		for(int i = 0; i < list.size(); i++) {
+			double coeff = list.get(i);
+			int power = highestPower - i; 
+
+			if (i>0) {
+				result += "+";
+			}
+			if (power>1) {
+				result += coeff + "x^" + power;
+			}
+			else if (power == 1) {
+				result += coeff + "x";
+			} else {
+				result += coeff;
+			}
+		}
+		return result; //FIXME
 	}
 	
 	/**
@@ -38,12 +66,42 @@ public class Polynomial {
 	 * @return value of polynomial at that x
 	 */
 	public double evaluate(double x) {
-		return 0;//FIXME
+		if (list.size() == 0) {
+			return 0;
+		}
+		double result = 0;
+		int highestPower = list.size() - 1;
+
+
+		for (int i = 0; i < list.size(); i++) {
+			double coeff = list.get(i);
+			int power = highestPower - i;
+
+			if (power>1) {
+				result += coeff * Math.pow(x,power);
+			}
+			else if (power == 1) {
+				result += coeff * x;
+			} else {
+				result += coeff;
+			}
+		}
+		return result;//FIXME
 	}
 
 	
 	public Polynomial derivative() {
-		return null;//FIXME
+		Polynomial derivative = new Polynomial();
+		
+		int highestPower = list.size() - 1;
+
+		for(int i = 0; i < list.size(); i++) {
+			double coeff = list.get(i);
+			int power = highestPower - i; 
+			derivative.addTerm(coeff*power);
+
+		}
+		return derivative; //FIXME
 	}
 	
 
